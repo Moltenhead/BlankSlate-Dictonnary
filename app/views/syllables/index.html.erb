@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Syllables</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Roman</th>
+      <th>Rune</th>
+      <th>Phonologie</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @syllables.each do |syllable| %>
+      <tr>
+        <td><%= syllable.roman %></td>
+        <td><%= syllable.rune %></td>
+        <td><%= syllable.phonologie %></td>
+        <td><%= link_to 'Show', syllable %></td>
+        <td><%= link_to 'Edit', edit_syllable_path(syllable) %></td>
+        <td><%= link_to 'Destroy', syllable, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Syllable', new_syllable_path %>

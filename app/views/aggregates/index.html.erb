@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Aggregates</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @aggregates.each do |aggregate| %>
+      <tr>
+        <td><%= link_to 'Show', aggregate %></td>
+        <td><%= link_to 'Edit', edit_aggregate_path(aggregate) %></td>
+        <td><%= link_to 'Destroy', aggregate, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Aggregate', new_aggregate_path %>

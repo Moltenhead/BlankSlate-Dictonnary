@@ -1,0 +1,37 @@
+<%= form_with(model: language_concept, local: true) do |form| %>
+  <% if language_concept.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(language_concept.errors.count, "error") %> prohibited this language_concept from being saved:</h2>
+
+      <ul>
+      <% language_concept.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :roman %>
+    <%= form.text_field :roman %>
+  </div>
+
+  <div class="field">
+    <%= form.label :run %>
+    <%= form.text_field :run %>
+  </div>
+
+  <div class="field">
+    <%= form.label :phonologie %>
+    <%= form.text_field :phonologie %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Roman:</strong>
+  <%= @family.roman %>
+</p>
+
+<p>
+  <strong>Rune:</strong>
+  <%= @family.rune %>
+</p>
+
+<p>
+  <strong>Phonologie:</strong>
+  <%= @family.phonologie %>
+</p>
+
+<%= link_to 'Edit', edit_family_path(@family) %> |
+<%= link_to 'Back', families_path %>
