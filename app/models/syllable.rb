@@ -5,6 +5,7 @@ class Syllable < LanguageConcept
   filed :inversion_roman, type: String
 
   belongs_to :family
+  has_many :concepts
 
   before_save :before_actions
 

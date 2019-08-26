@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :concepts
   resources :words
   resources :aggregates
   resources :language_concepts
