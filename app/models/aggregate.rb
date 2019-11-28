@@ -5,6 +5,7 @@ class Aggregate < LanguageConcept
   has_many :syllables
   has_many :families
   has_many :concepts
+  has_many :grammar_compositions
 
   before_save :before_actions
 

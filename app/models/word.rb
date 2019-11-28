@@ -8,11 +8,11 @@ class Word < LanguageConcept
   before_save :before_actions
 
   def inherhit_families
-    families = syllables.pluck(families).flatten.uniq.compact
+    self.families = syllables.pluck(families).flatten.uniq.compact
   end
 
   def inherit_concepts
-    concepts = syllables.pluck(concepts).flatten.uniq.compact
+    self.concepts = syllables.pluck(concepts).flatten.uniq.compact
   end
 
   def before_actions

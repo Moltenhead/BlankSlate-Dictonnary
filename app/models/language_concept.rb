@@ -2,8 +2,8 @@
 
 # Language concepts
 class LanguageConcept < ApplicationRecord
-  field :roman, type: String
-  field :rune, type: String
-  field :phonologie, type: String
-  field :description, type: String
+  include Concerns::Descriptible
+  include Concerns::Romanizable
+
+  has_many :runes
 end
