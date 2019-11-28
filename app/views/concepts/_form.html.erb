@@ -1,10 +1,10 @@
-<%= form_with(model: concept, local: true) do |form| %>
-  <% if concept.errors.any? %>
+<%= form_with(model: @instance, local: true) do |form| %>
+  <% if @instance.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(concept.errors.count, "error") %> prohibited this concept from being saved:</h2>
+      <h2><%= pluralize(@instance.errors.count, "error") %> prohibited this <%= @instance %> from being saved:</h2>
 
       <ul>
-      <% concept.errors.full_messages.each do |message| %>
+      <% @instance.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>

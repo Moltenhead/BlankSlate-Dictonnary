@@ -11,12 +11,12 @@
   </thead>
 
   <tbody>
-    <% @concepts.each do |concept| %>
+    <% @instances.each do |instance| %>
       <tr>
-        <td><%= concept.meanings %></td>
-        <td><%= link_to 'Show', concept %></td>
-        <td><%= link_to 'Edit', edit_concept_path(concept) %></td>
-        <td><%= link_to 'Destroy', concept, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= instance.meanings %></td>
+        <td><%= link_to 'Show', instance %></td>
+        <td><%= link_to 'Edit', edit_concept_path(instance) %></td>
+        <td><%= link_to 'Destroy', instance, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

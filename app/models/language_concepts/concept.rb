@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
-# An abstract concept
-class Concept < LanguageConcept
-  include Concerns::Nameable
-  include Concerns::Typed
+module LanguageConcepts
+  # An abstract concept
+  class Concept < LanguageConcept
+    include Concerns::Nameable
+    include Concerns::Typed
 
-  has_many :words
+    has_many :words, class_name: 'LanguageConcepts::Word'
+  end
 end

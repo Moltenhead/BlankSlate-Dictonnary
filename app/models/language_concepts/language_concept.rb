@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
-# Language concepts
-class LanguageConcept < ApplicationRecord
-  include Concerns::Descriptible
-  include Concerns::Romanizable
+module LanguageConcepts
+  # Language concepts
+  class LanguageConcept < ApplicationRecord
+    include Concerns::Descriptible
+    include Concerns::Romanizable
 
-  has_many :runes
+    has_many :runes, class_name: 'LanguageConcepts::Rune'
+  end
 end
