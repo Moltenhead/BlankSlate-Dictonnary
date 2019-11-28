@@ -5,5 +5,5 @@ class Rune < ApplicationRecord
   include Concerns::Nameable
   include Concerns::Descriptible
   include Concerns::Representable
-  include COncerns::Romanizable
+  include Concerns::Romanizable
 end
