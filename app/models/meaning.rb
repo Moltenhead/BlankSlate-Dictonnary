@@ -2,7 +2,7 @@
 
 # A language concept
 class Meaning < ApplicationRecord
-  include Concerns::Namable
+  include Concerns::Nameable
   include Concerns::Descriptible
 
   has_and_belongs_to_many :meanings

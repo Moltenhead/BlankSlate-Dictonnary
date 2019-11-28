@@ -2,7 +2,7 @@
 
 # Language concepts
 class Rune < ApplicationRecord
-  include Concerns::Namable
+  include Concerns::Nameable
   include Concerns::Descriptible
   include Concerns::Representable
   include COncerns::Romanizable

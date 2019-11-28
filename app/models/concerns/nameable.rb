@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-# app/models/concerns/namable.rb
+# app/models/concerns/nameable.rb
 
 module Concerns
-  module Namable
+  module Nameable
     extend ActiveSupport::Concern
 
     included do

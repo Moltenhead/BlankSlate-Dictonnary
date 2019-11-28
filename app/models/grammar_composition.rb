@@ -1,5 +1,5 @@
 class GrammarComposition < LanguageConcept
-  include Concerns::Namable
+  include Concerns::Nameable
 
   field :preceding_family_ids, type: Array, default: []
   field :following_family_ids, type: Array, default: []

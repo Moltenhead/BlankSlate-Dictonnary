@@ -2,7 +2,7 @@
 
 # An abstract concept
 class Concept < LanguageConcept
-  include Concerns::Namable
+  include Concerns::Nameable
   include Concerns::Typed
 
   has_many :words
