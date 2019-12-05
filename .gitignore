@@ -79,3 +79,6 @@ bower.json
 # Ignore node_modules
 node_modules/
 
+# Added by webpack-rails
+/node_modules
+/public/webpack

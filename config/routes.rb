@@ -1,4 +1,8 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
+  root 'homepage#index'
+
   resources :concepts
   resources :words
   resources :aggregates
