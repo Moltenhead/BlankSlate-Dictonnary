@@ -1,20 +1,20 @@
 // Example webpack configuration with asset fingerprinting in production.
-'use strict';
+"use strict";
 
-var path = require('path');
-var webpack = require('webpack');
-var StatsPlugin = require('stats-webpack-plugin');
+var path = require("path");
+var webpack = require("webpack");
+var StatsPlugin = require("stats-webpack-plugin");
 
 // must match config.webpack.dev_server.port
 var devServerPort = 3808;
 
 // set NODE_ENV=production on the environment to add asset fingerprints
-var production = process.env.NODE_ENV === 'production';
+var production = process.env.NODE_ENV === "production";
 
 var config = {
   entry: {
     // Sources are expected to live in $app_root/webpack
-    'application': './webpack/application.js'
+    application: "./webpack/application.js"
   },
 
   output: {
@@ -22,26 +22,27 @@ var config = {
     // that all webpacked assets start with webpack/
 
     // must match config.webpack.output_dir
-    path: path.join(__dirname, '..', 'public', 'webpack'),
-    publicPath: '/webpack/',
+    path: path.join(__dirname, "..", "public", "webpack"),
+    publicPath: "/webpack/",
 
-    filename: production ? '[name]-[chunkhash].js' : '[name].js'
+    filename: production ? "[name]-[chunkhash].js" : "[name].js"
   },
 
   resolve: {
-    root: path.join(__dirname, '..', 'webpack')
+    root: path.join(__dirname, "..", "webpack")
   },
 
   plugins: [
     // must match config.webpack.manifest_filename
-    new StatsPlugin('manifest.json', {
+    new StatsPlugin("manifest.json", {
       // We only need assetsByChunkName
       chunkModules: false,
       source: false,
       chunks: false,
       modules: false,
       assets: true
-    })]
+    })
+  ]
 };
 
 if (production) {
@@ -52,7 +53,7 @@ if (production) {
       sourceMap: false
     }),
     new webpack.DefinePlugin({
-      'process.env': { NODE_ENV: JSON.stringify('production') }
+      "process.env": { NODE_ENV: JSON.stringify("production") }
     }),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurenceOrderPlugin()
@@ -60,11 +61,11 @@ if (production) {
 } else {
   config.devServer = {
     port: devServerPort,
-    headers: { 'Access-Control-Allow-Origin': '*' }
+    headers: { "Access-Control-Allow-Origin": "*" }
   };
-  config.output.publicPath = '//localhost:' + devServerPort + '/webpack/';
+  config.output.publicPath = "//localhost:" + devServerPort + "/webpack/";
   // Source maps
-  config.devtool = 'cheap-module-eval-source-map';
+  config.devtool = "cheap-module-eval-source-map";
 }
 
 module.exports = config;

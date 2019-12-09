@@ -10,6 +10,9 @@ module BlankSlateDictionnary
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
+    config.assets.path ||= []
+    config.assets.path << Rails.root.join('javascript')
+    config.action_view.javascript_expansions[:defaults] = %w(application.js)
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers

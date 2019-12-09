@@ -17,3 +17,5 @@
 //= require react_ujs
 //= require components
 //= require_tree .
+
+console.log("in application.js");

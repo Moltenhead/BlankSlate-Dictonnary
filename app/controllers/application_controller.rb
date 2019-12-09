@@ -3,6 +3,8 @@
 class ApplicationController < ActionController::Base
   before_action :set_instance, only: [:show, :edit, :update, :destroy]
 
+  @@module_name = nil
+
   def initialize
     super
     @model_name = (@@module_name ? "#{@@module_name}::" : '') + controller_name.classify
