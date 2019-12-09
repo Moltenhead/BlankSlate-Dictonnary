@@ -1,6 +1,6 @@
 {
-  "Index.js": "/packs/js/Index-ca52f3fa8c01e9027e2f.js",
-  "Index.js.map": "/packs/js/Index-ca52f3fa8c01e9027e2f.js.map",
+  "Index.js": "/packs/js/Index-562d688b490f93715e7d.js",
+  "Index.js.map": "/packs/js/Index-562d688b490f93715e7d.js.map",
   "application.js": "/packs/js/application-2181adcc3224cdc0c9c1.js",
   "application.js.map": "/packs/js/application-2181adcc3224cdc0c9c1.js.map",
   "entrypoints": {
@@ -14,10 +14,10 @@
     },
     "Index": {
       "js": [
-        "/packs/js/Index-ca52f3fa8c01e9027e2f.js"
+        "/packs/js/Index-562d688b490f93715e7d.js"
       ],
       "js.map": [
-        "/packs/js/Index-ca52f3fa8c01e9027e2f.js.map"
+        "/packs/js/Index-562d688b490f93715e7d.js.map"
       ]
     }
   }

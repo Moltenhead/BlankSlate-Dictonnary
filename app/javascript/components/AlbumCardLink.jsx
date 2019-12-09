@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import pluralize from "pluralize";
 import { capitalize } from "../utilities/string_utils"
 
-export default class MainLink extends Component {
+export default class AlbumCardLink extends Component {
   constructor(props) {
     super(props);
   }
@@ -16,7 +16,7 @@ export default class MainLink extends Component {
       <div className="col-md-4">
         <Link
           to={`/${name && pluralize(name)}`}
-          className="btn btn-lg btn-outline-secondary card mb-4 shadow-sm"
+          className="btn btn-lg btn-outline-secondary card shadow-sm p-0"
           role="button"
         >
           <div className="card-header">

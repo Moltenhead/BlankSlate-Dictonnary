@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import MainLink from "./MainLink";
+import AlbumCardLink from "./AlbumCardLink";
 
 import { chunkArray } from "../utilities/array_utils";
 
@@ -15,11 +15,11 @@ const _rowCols = 3;
 
 const _mainLinksMap = chunkArray(_mainLinksData, _rowCols).map((dataRow, i) => {
   return (
-    <div className="row">
+    <div className="row my-4">
       {dataRow.map((mainLinkData, j) => {
         const k = (i * _rowCols) + j
         console.log(k)
-        return <MainLink name={mainLinkData.name} key={k}/>
+        return <AlbumCardLink name={mainLinkData.name} key={k}/>
       })}
     </div>
   );
