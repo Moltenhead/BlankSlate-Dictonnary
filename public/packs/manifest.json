@@ -1,0 +1,24 @@
+{
+  "Index.js": "/packs/js/Index-ca52f3fa8c01e9027e2f.js",
+  "Index.js.map": "/packs/js/Index-ca52f3fa8c01e9027e2f.js.map",
+  "application.js": "/packs/js/application-2181adcc3224cdc0c9c1.js",
+  "application.js.map": "/packs/js/application-2181adcc3224cdc0c9c1.js.map",
+  "entrypoints": {
+    "application": {
+      "js": [
+        "/packs/js/application-2181adcc3224cdc0c9c1.js"
+      ],
+      "js.map": [
+        "/packs/js/application-2181adcc3224cdc0c9c1.js.map"
+      ]
+    },
+    "Index": {
+      "js": [
+        "/packs/js/Index-ca52f3fa8c01e9027e2f.js"
+      ],
+      "js.map": [
+        "/packs/js/Index-ca52f3fa8c01e9027e2f.js.map"
+      ]
+    }
+  }
+}
