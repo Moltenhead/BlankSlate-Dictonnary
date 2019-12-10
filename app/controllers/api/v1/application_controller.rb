@@ -13,7 +13,7 @@ module Api
         Creatable
         Destroyable
       ].each do |api_concern_name|
-        eval("include Concerns::Api::#{api_concern_name}")
+        self.class.send(:include, "Concerns::Api::#{api_concern_name}".constantize)
       end
 
       # INTIALIZE
