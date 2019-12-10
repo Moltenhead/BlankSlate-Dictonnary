@@ -3,6 +3,8 @@
 module Api
   module V1
     class ApplicationController < ::ActionController::Base
+      self.abstract_class = true
+
       %w[
         Collectionable
         Instanceable
@@ -29,6 +31,7 @@ module Api
         @acceptable_params = @regex_params = @regex_default_params = @regex_params = @valid_operators = []
       end
 
+      # CLASS METHODS
       class << self
         def module_name(module_name)
           @@module_name = module_name
