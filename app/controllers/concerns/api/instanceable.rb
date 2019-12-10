@@ -9,21 +9,6 @@ module Concerns
       extend ActiveSupport::Concern
 
       included do
-        before_action :set_instance, only: %i[show edit update destroy]
-
-        # ========================================== #
-        # ---------------- ACTIONS  ---------------- #
-        # ========================================== #
-        def show
-          return render_json_error(:not_found, :object_not_found) unless @instance
-
-          render(
-            jsonapi: @instance,
-            serializer: @serializer,
-            **@options
-          )
-        end
-
         private
 
         # Use callbacks to share common setup or constraints between actions.

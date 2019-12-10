@@ -4,8 +4,9 @@ module Api
   module V1
     class ApplicationController < ::ActionController::Base
       %w[
-        Instanceable
         Collectionable
+        Instanceable
+        Showable
         Mutable
         Creatable
         Destroyable

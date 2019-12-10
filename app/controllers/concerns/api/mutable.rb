@@ -9,6 +9,8 @@ module Concerns
       extend ActiveSupport::Concern
 
       included do
+        before_action :set_instance, only: %i[edit update]
+
         # ========================================== #
         # --------------- UTILITIES  --------------- #
         # ========================================== #
