@@ -118,6 +118,17 @@ module Concerns
           end
         end
 
+        def paginate(aggregation, options = {})
+          page = params[:page][:number] || 1
+          page_size = params[:page][:size] || 15
+          paginated_aggregation = aggregation.skip((page - 1) * page_size).limit(page_size)
+
+          render(
+            paginated_aggregation,
+            **options
+          )
+        end
+
         # ========================================== #
         # ---------------- ACTIONS  ---------------- #
         # ========================================== #
