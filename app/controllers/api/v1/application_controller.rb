@@ -8,16 +8,18 @@ module Api
               Concerns::Api::Showable,
               Concerns::Api::Mutable,
               Concerns::Api::Creatable,
-              Concerns::Api::Destroyable 
+              Concerns::Api::Updatable,
+              Concerns::Api::Destroyable
 
       before_action :set_instance, only: %i[show edit update destroy]
+      skip_before_action :verify_authenticity_token
 
-      @@module_name = nil
+      @@model_module = nil
 
       # INTIALIZE
       def initialize
         super
-        @model_name = (@@module_name ? "#{@@module_name}::" : '') + controller_name.classify
+        @model_name = (@@model_module ? "#{@@model_module}::" : '') + controller_name.classify
         begin
           if @model_name && @model_name != 'Application'
             @model = @model_name.constantize
@@ -56,8 +58,8 @@ module Api
 
       # CLASS METHODS
       class << self
-        def module_name(module_name)
-          @@module_name = module_name
+        def model_module(model_module)
+          @@model_module = model_module
         end
       end
     end
