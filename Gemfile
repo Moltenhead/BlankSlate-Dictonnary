@@ -31,6 +31,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 gem 'bson_ext'
+gem 'jsonapi-rails'
 gem 'mongoid', '~> 7.0.4'
 
 group :development, :test do

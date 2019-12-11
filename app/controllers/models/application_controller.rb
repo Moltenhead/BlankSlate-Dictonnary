@@ -19,7 +19,6 @@ module Models
     # GET /instances
     # GET /instances.json
     def index
-      puts "all is #{@model.all}"
       @instances = @model.all
     end
 

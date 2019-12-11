@@ -118,25 +118,28 @@ module Concerns
         end
 
         def paginate(aggregation, options = {})
-          page = params[:page][:number] || 1
-          page_size = params[:page][:size] || 15
+          page = params[:page]&.fetch(:number, nil) || 1
+          page_size = params[:page]&.fetch(:size, nil) || 15
           paginated_aggregation = aggregation.skip((page - 1) * page_size).limit(page_size)
 
+          puts paginated_aggregation.count
+          puts options
+
           render(
-            jsonapi: paginated_aggregation,
+            paginated_aggregation.to_a,
             **options
           )
         end
-
-        puts 'will include index'
 
         # ========================================== #
         # ---------------- ACTIONS  ---------------- #
         # ========================================== #
         def index
+          @options ||= {}
+          puts @model_name
           paginate(
             index_aggregation,
-            each_serializer: @serializer,
+            class: { @model.name.to_sym => @serializer },
             **@options
           )
         end

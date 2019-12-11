@@ -15,7 +15,7 @@ module Concerns
         def show
           return render_json_error(:not_found, :object_not_found) unless @instance
 
-          render(
+          @renderer.render(
             jsonapi: @instance,
             serializer: @serializer,
             **@options

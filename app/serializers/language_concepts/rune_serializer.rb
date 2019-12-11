@@ -4,13 +4,13 @@ module LanguageConcepts
   class RuneSerializer < ApplicationSerializer
     type 'runes'
 
-    attributes [
+    attributes(
       :name,
       :short_description,
       :long_description,
       :roman,
       :phonology
-    ]
+    )
 
     #has_one :representation do
     #  data do

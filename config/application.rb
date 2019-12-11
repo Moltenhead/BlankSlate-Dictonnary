@@ -29,7 +29,6 @@ module BlankSlateDictionary
 
     config.autoload_paths += %W(#{config.root}/app/serializers)
     config.autoload_paths += %W(#{config.root}/app/serializers/*)
-    puts config.autoload_paths
 
     # Don't generate system test files.
     config.generators.system_tests = nil
