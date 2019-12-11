@@ -13,10 +13,11 @@ module Concerns
         # ---------------- ACTIONS  ---------------- #
         # ========================================== #
         def show
-          return render_json_error(:not_found, :object_not_found) unless @instance
+          return render_api_error(:not_found, :object_not_found) unless @instance
 
-          @renderer.render(
-            jsonapi: @instance,
+          @options ||= {}
+          render(
+            json: @instance,
             serializer: @serializer,
             **@options
           )
