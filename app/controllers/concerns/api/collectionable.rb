@@ -14,52 +14,65 @@ module Concerns
         # ========================================== #
         # --------------- UTILITIES  --------------- #
         # ========================================== #
-        %i[
-          acceptable_params
-          regex_default_params
-          regex_params
-          valid_operators
-          included_relationships
-        ].each do |method_name|
-          define_method(method_name) do |value = []|
-            instance_variable_set(method_name, value || [])
-          end
+
+        attr_accessor(
+          :acceptable_params,
+          :regex_default_params,
+          :regex_params,
+          :valid_operators,
+          :included_relationships
+        )
+        def acceptable_params(arr = [])
+          @acceptable_params = arr
         end
+        def regex_default_params(arr = [])
+          @regex_default_params = arr
+        end
+        def regex_params(arr = [])
+          @regex_params = arr
+        end
+        def valid_operators(arr = [])
+          @valid_operators = arr
+        end
+        def included_relationships(arr = [])
+          @included_relationships = arr
+        end
+
+        # %i[
+        #   acceptable_params
+        #   regex_default_params
+        #   regex_params
+        #   valid_operators
+        #   included_relationships
+        # ].each do |method_name|
+        #   attr_accessor method_name
+        #   define_method(method_name) do |value = []|
+        #     instance_variable_set(method_name, value || [])
+        #   end
+        # end
 
         # handle query parameters and query operators
         def build_query(other_model = nil)
         # @other_model: when nil use @model, else use passed model
         #   - needed for value type handling
           query = {}
+
           params.each do |key, value|
             # find parameters beginning by "search_"
             if ((match = key =~ /^search_([\w]*)$/) && (@regex_params.include?(target_key = match[1])) || (@regex_default_params.include?(target_key == key)))
-              query[target_key.to_sym] = Regexp.new(value)  # turn it into regex
+              query[target_key.to_sym] ||= {}
+              query[target_key.to_sym][:$regex] = value  # turn it into regex
               params.delete(key)                            # then remove it from parameters
             # handle ids paramter => query for every id passed within array
-            elsif key == 'ids' && @acceptable_params.include?('ids')
-              query["id"] = {"$in"=>value}
+            elsif [:ids, 'ids'].include?(key) && @acceptable_params.include?('ids')
+              query[:id] = { :$in => value }
             end
           end
 
-          valid_params = params.slice(*@acceptable_params)  # slice only valid parameters from 
-
           model = other_model || @model
-          # handle parameters value type using 'model' local variable
-          valid_params.each do |key, value|
-            next if !model || model.fields[key].nil?
+          valid_params = restricted_params(model, params)  # slice only valid parameters
 
-            field_type = model.fields[key].type.name.demodulize
-            query[key.to_sym] = case value.class.name
-                                when /(ActionController::Parameters|Hash|Mongoi::Document)/
-                                  value.each_with_object({}) do |(sub_key, sub_value), h|
-                                    h[sub_key.to_sym] = format_parameter(field_type, sub_value) if @valid_operators.include? sub_key
-                                  end
-                                else
-                                  format_parameter(field_type, value) || {:$eq => nil}
-                                end
-          end
-          query
+          query.merge(valid_params)
         end
 
         def format_parameter(type, param)
@@ -68,14 +81,7 @@ module Concerns
               x[sf_k] = format_value(type, sf_v) if @valid_operators.include?(sf_k)
             end
           else
-            formated = format_value(type, param)
-            if formated.is_a?(NilClass)
-              { :$eq => nil }
-            elsif formated.is_a?(FalseClass)
-              { :$eq => false }
-            else
-              formated
-            end
+            format_value(type, param)
           end
         end
 
@@ -83,7 +89,7 @@ module Concerns
           return unless [1, -1, '1', '-1', 'asc', 'desc', :asc, :desc].include?(val)
 
           val = Integer(val) if ['1', '-1'].include?(val)
-          if [1,-1].include? val
+          if [1, -1].include? val
             val == 1 ? :asc : :desc
           elsif %w[asc desc].include?(val)
             val.to_sym
@@ -108,8 +114,8 @@ module Concerns
             ActionController::Parameters
             Mongoid::Document
             Hash
-          ].include?(params[:sort].class.name)
-            params[:sort].each_with_object({}) do |(key, val), h|
+          ].include?(params.permit![:sort].class.name)
+            params.permit![:sort].to_h.each_with_object({}) do |(key, val), h|
               next unless handle_order_param(val)
 
               h[key] = handle_order_param(val)
@@ -118,17 +124,42 @@ module Concerns
         end
 
         def paginate(aggregation, options = {})
-          page = params[:page]&.fetch(:number, nil) || 1
-          page_size = params[:page]&.fetch(:size, nil) || 15
-          paginated_aggregation = aggregation.skip((page - 1) * page_size).limit(page_size)
-
-          puts paginated_aggregation.count
-          puts options
+          page = params.permit![:page]&.fetch(:number, nil) || 1
+          page_size = params.permit![:page]&.fetch(:size, nil) || 15
+          paginated_aggregation = aggregation.skip((Integer(page) - 1) * Integer(page_size)).limit(page_size)
 
           render(
-            paginated_aggregation.to_a,
+            json: paginated_aggregation,
             **options
           )
+        end
+
+        def restricted_params(model, hash)
+          return unless model
+          return {} unless hash
+
+          valid_keys = @acceptable_params + [:$and, :$or, :id, '$and', '$or', 'id']
+          hash = hash.permit!.slice(*valid_keys)
+
+          hash.to_h.each_with_object({}) do |(key, value), h|
+            h[key.to_sym] = if [:$or, :$and, '$or', '$and'].include?(key)
+                              value.map do |sub_h|
+                                restricted_params(model, sub_h.slice(*valid_keys))
+                              end
+                            else
+                              next unless model.fields[key].present?
+
+                              field_type = model.fields[key].type.name.demodulize
+                              case value.class.name
+                              when /(ActionController::Parameters|Hash|Mongoid::Document)/
+                                value.each_with_object({}) do |(sub_key, sub_value), sub_h|
+                                  sub_h[sub_key.to_sym] = format_parameter(field_type, sub_value) if @valid_operators.include?(sub_key)
+                                end
+                              else
+                                format_parameter(field_type, value) || {:$eq => nil}
+                              end
+                            end
+          end
         end
 
         # ========================================== #
@@ -136,10 +167,10 @@ module Concerns
         # ========================================== #
         def index
           @options ||= {}
-          puts @model_name
+          puts index_aggregation.selector
           paginate(
             index_aggregation,
-            class: { @model.name.to_sym => @serializer },
+            each_serializer: @serializer,
             **@options
           )
         end

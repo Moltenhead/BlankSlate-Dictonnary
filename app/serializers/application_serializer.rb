@@ -1,4 +1,4 @@
-class ApplicationSerializer < JSONAPI::Serializable::Resource
+class ApplicationSerializer < ActiveModel::Serializer
   attributes(
     :id,
     :created_at,

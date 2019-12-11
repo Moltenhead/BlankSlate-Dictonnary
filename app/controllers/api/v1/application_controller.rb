@@ -16,7 +16,6 @@ module Api
 
       # INTIALIZE
       def initialize
-        @renderer = JSONAPI::Serializable::Renderer.new
         super
         @model_name = (@@module_name ? "#{@@module_name}::" : '') + controller_name.classify
         begin
@@ -30,30 +29,30 @@ module Api
         @acceptable_params = @regex_params = @regex_default_params = @regex_params = @valid_operators = []
       end
 
-      def render(resources, options = {})
-        options   = options.dup
-        klass     = options.delete(:class) || {}
-        exposures = options.delete(:expose) || {}
-        exposures = exposures.merge(_class: klass)
+      # def render(resources, options = {})
+      #   options   = options.dup
+      #   klass     = options.delete(:class) || {}
+      #   exposures = options.delete(:expose) || {}
+      #   exposures = exposures.merge(_class: klass)
 
-        resources =
-          JSONAPI::Serializable.resources_for(resources, exposures, klass)
-        puts options
-        puts @renderer.render(options.merge(data: resources))
+      #   resources =
+      #     JSONAPI::Serializable.resources_for(resources, exposures, klass)
+      #   puts options
+      #   puts @renderer.render(options.merge(data: resources))
 
-        @renderer.render(options.merge(data: resources))
-      end
+      #   @renderer.render(options.merge(data: resources))
+      # end
 
-      def render_errors(errors, options = {})
-        options   = options.dup
-        klass     = options.delete(:class) || {}
-        exposures = options.delete(:expose) || {}
+      # def render_errors(errors, options = {})
+      #   options   = options.dup
+      #   klass     = options.delete(:class) || {}
+      #   exposures = options.delete(:expose) || {}
 
-        errors =
-          JSONAPI::Serializable.resources_for(errors, exposures, klass)
+      #   errors =
+      #     JSONAPI::Serializable.resources_for(errors, exposures, klass)
 
-        @renderer.render(options.merge(errors: errors))
-      end
+      #   @renderer.render(options.merge(errors: errors))
+      # end
 
       # CLASS METHODS
       class << self
