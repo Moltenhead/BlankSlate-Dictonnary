@@ -3,7 +3,8 @@
 module Api
   module V1
     class RunesController < ApplicationController
-      module_name 'LanguageConcepts'
+      include Concerns::Api::CommonControls
+      model_module 'LanguageConcepts'
 
       VALID_OPERATORS = %w[
         $in
@@ -16,7 +17,7 @@ module Api
         $regex
         $all
         $eq
-      ]
+      ].freeze
 
       ACCEPTABLE_PARAMS = %i[
         id
@@ -29,11 +30,13 @@ module Api
         phonology
       ].freeze
 
-      def index
-        acceptable_params ACCEPTABLE_PARAMS
-        valid_operators VALID_OPERATORS
-        super
-      end
+      MUTABLE_PARAMS = %i[
+        name
+        short_description
+        long_description
+        roman
+        phonology
+      ].freeze
     end
   end
 end
