@@ -167,7 +167,6 @@ module Concerns
         # ========================================== #
         def index
           @options ||= {}
-          puts index_aggregation.selector
           paginate(
             index_aggregation,
             each_serializer: @serializer,
