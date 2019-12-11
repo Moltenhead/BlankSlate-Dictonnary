@@ -24,6 +24,11 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
+    active_model_serializers (0.10.10)
+      actionpack (>= 4.1, < 6.1)
+      activemodel (>= 4.1, < 6.1)
+      case_transform (>= 0.2)
+      jsonapi-renderer (>= 0.1.1.beta1, < 0.3)
     activejob (5.2.4)
       activesupport (= 5.2.4)
       globalid (>= 0.3.6)
@@ -50,6 +55,8 @@ GEM
     bson_ext (1.5.1)
     builder (3.2.3)
     byebug (11.0.1)
+    case_transform (0.2)
+      activesupport
     concurrent-ruby (1.1.5)
     crass (1.0.5)
     duktape (2.3.0.0)
@@ -63,17 +70,7 @@ GEM
       concurrent-ruby (~> 1.0)
     jbuilder (2.9.1)
       activesupport (>= 4.2.0)
-    jsonapi-deserializable (0.2.0)
-    jsonapi-parser (0.1.1)
-    jsonapi-rails (0.4.0)
-      jsonapi-parser (~> 0.1.0)
-      jsonapi-rb (~> 0.5.0)
-    jsonapi-rb (0.5.0)
-      jsonapi-deserializable (~> 0.2.0)
-      jsonapi-serializable (~> 0.3.0)
     jsonapi-renderer (0.2.2)
-    jsonapi-serializable (0.3.1)
-      jsonapi-renderer (~> 0.2.0)
     loofah (2.4.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -181,12 +178,12 @@ PLATFORMS
   x64-mingw32
 
 DEPENDENCIES
+  active_model_serializers (~> 0.10.0)
   bootsnap (>= 1.1.0)
   bson_ext
   byebug
   duktape
   jbuilder (~> 2.5)
-  jsonapi-rails
   mongoid (~> 7.0.4)
   puma (~> 4.3)
   rails (~> 5.2.4)
