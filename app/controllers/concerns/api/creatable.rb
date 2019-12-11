@@ -13,10 +13,10 @@ module Concerns
         # ---------------- ACTIONS  ---------------- #
         # ========================================== #
         def create
-          @instance = @model.new(mutate_valid_params.merge(user_id: user_id))
-          return respond_with_errors(@instance) unless @instance.save
+          @instance = @model.new(mutate_valid_params)
+          return render_api_error(@instance) unless @instance.save
 
-          render(jsonapi: @instance, serializer: @serializer, status: :created)
+          render(json: @instance, serializer: @serializer, status: :created)
         end
       end
     end
