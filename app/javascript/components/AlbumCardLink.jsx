@@ -7,11 +7,28 @@ import { capitalize } from "../utilities/string_utils"
 export default class AlbumCardLink extends Component {
   constructor(props) {
     super(props);
+    this.state = { elementsQuantity: 0 }
+  }
+
+  componentDidMount() {
+    const { modelTypes } = this.props;
+    const url = `/api/v1/${modelTypes}`;
+
+    fetch(url)
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error("Network response was not ok.");
+      })
+      .then(response => this.setState({ elementsQuantity: response.length }))
+      .catch(() => this.props.history.push("/"));
   }
 
   render()
   {
     const { name } = this.props
+    const { elementsQuantity } = this.state
     return(
       <div className="col-md-4">
         <Link
@@ -28,7 +45,7 @@ export default class AlbumCardLink extends Component {
             </div>
             <div className="d-flex justify-content-end align-items-end">
               <small className="text-muted">
-                last created 0 mins ago
+                {elementsQuantity} existing
               </small>
             </div>
           </div>
