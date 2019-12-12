@@ -5,21 +5,19 @@ import AlbumCardLink from "./AlbumCardLink";
 import { chunkArray } from "../utilities/array_utils";
 
 const _mainLinksData = [
-  {name: 'word'},
-  {name: 'syllable'},
-  {name: 'concept'},
-  {name: 'rune'}
+  {name: 'word', modelTypes: 'words'},
+  {name: 'syllable', modelTypes: 'syllables'},
+  {name: 'concept', modelTypes: 'concepts'},
+  {name: 'rune', modelTypes: 'runes'}
 ];
 
 const _rowCols = 3;
 
 const _mainLinksMap = chunkArray(_mainLinksData, _rowCols).map((dataRow, i) => {
   return (
-    <div className="row my-4">
+    <div key={i} className="row my-4">
       {dataRow.map((mainLinkData, j) => {
-        const k = (i * _rowCols) + j
-        console.log(k)
-        return <AlbumCardLink name={mainLinkData.name} key={k}/>
+        return <AlbumCardLink key={j} name={mainLinkData.name} modelTypes={mainLinkData.modelTypes}/>
       })}
     </div>
   );
