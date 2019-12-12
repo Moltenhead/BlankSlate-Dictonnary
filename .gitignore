@@ -79,7 +79,6 @@ bower.json
 # Ignore node_modules
 node_modules/
 
-#
+# Ignore public packs and assets
 public/packs
 public/assests
-
