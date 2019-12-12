@@ -3,8 +3,8 @@
 module Api
   module V1
     class RunesController < ApplicationController
-      include Concerns::Api::CommonControls
       model_module 'LanguageConcepts'
+      include Concerns::Api::CommonControls
 
       VALID_OPERATORS = %w[
         $in
