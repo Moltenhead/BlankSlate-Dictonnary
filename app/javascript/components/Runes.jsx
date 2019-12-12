@@ -10,7 +10,7 @@ class Runes extends React.Component {
   }
 
   componentDidMount() {
-    const url = "/api/v1/runes/index";
+    const url = "/api/v1/runes";
     fetch(url)
       .then(response => {
         if (response.ok) {
@@ -44,7 +44,7 @@ class Runes extends React.Component {
     const noRune = (
       <div className="vw-100 vh-50 d-flex align-items-center justify-content-center">
         <h4>
-          No runes yet. Why not <Link to="/new_rune">create one</Link>
+          No runes yet. Why not <Link to="/rune">create one</Link>
         </h4>
       </div>
     );
@@ -53,11 +53,9 @@ class Runes extends React.Component {
       <>
         <section className="jumbotron jumbotron-fluid text-center">
           <div className="container py-5">
-            <h1 className="display-4">Runes for every occasion</h1>
+            <h1 className="display-4">Existing Runes</h1>
             <p className="lead text-muted">
-              We’ve pulled together our most popular runes, our latest
-              additions, and our editor’s picks, so there’s sure to be something
-              tempting for you to try.
+              View, edit and delete existing runes.
             </p>
           </div>
         </section>
