@@ -3,13 +3,13 @@
 module Api
   module V1
     class ApplicationController < ActionController::Base
-      include Concerns::Api::Structuralizers::Collectionable,
-              Concerns::Api::Structuralizers::Instanceable,
-              Concerns::Api::Structuralizers::Showable,
-              Concerns::Api::Structuralizers::Mutable,
-              Concerns::Api::Structuralizers::Creatable,
-              Concerns::Api::Structuralizers::Updatable,
-              Concerns::Api::Structuralizers::Destroyable
+      include Concerns::Api::Structuralizers::Collectionable
+      include Concerns::Api::Structuralizers::Instanceable
+      include Concerns::Api::Structuralizers::Showable
+      include Concerns::Api::Structuralizers::Mutable
+      include Concerns::Api::Structuralizers::Creatable
+      include Concerns::Api::Structuralizers::Updatable
+      include Concerns::Api::Structuralizers::Destroyable
 
       before_action :set_instance, only: %i[show edit update destroy]
       skip_before_action :verify_authenticity_token
