@@ -3,8 +3,10 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      resources :runes do
-      end
+      resources :words
+      resources :concepts
+      resources :syllables
+      resources :runes
     end
   end
 
