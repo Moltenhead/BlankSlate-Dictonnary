@@ -30,9 +30,13 @@ gem 'jbuilder', '~> 2.5'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
+# Db gems
 gem 'bson_ext'
-gem 'active_model_serializers', '~> 0.10.0'
 gem 'mongoid', '~> 7.0.4'
+gem 'mongoid_rails_migrations'
+
+# Serialization
+gem 'active_model_serializers', '~> 0.10.0'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
