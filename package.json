@@ -16,6 +16,7 @@
     "react-router-dom": "^5.1.2"
   },
   "devDependencies": {
+    "jshint": "^2.11.0-rc1",
     "webpack-dev-server": "^3.9.0"
   }
 }
