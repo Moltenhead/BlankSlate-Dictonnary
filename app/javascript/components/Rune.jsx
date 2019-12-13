@@ -1,73 +1,79 @@
-import React from "react";
+import Show from "./Show";
 import { Link } from "react-router-dom";
 
-class Rune extends React.Component {
+class Rune extends Show {
   constructor(props) {
+    this.modelTypes = "runes";
+    this.modelFields = [
+      {name: 'name', type: String},
+      {name: 'short_description', type: String},
+      {name: 'long_description', type: String},
+      {name: 'roman', type: String},
+      {name: 'phonology', type: String}
+    ];
+
     super(props);
-    this.state = { rune: { ingredients: "" } };
-
-    this.deleteRune = this.deleteRune.bind(this);
   }
 
-  componentDidMount() {
-    this._isMounted = true;
-    const {
-      match: {
-        params: { id }
-      }
-    } = this.props;
+  // componentDidMount() {
+  //   this._isMounted = true;
+  //   const {
+  //     match: {
+  //       params: { id }
+  //     }
+  //   } = this.props;
 
-    const url = `/api/v1/runes/${id}`;
+  //   const url = `/api/v1/runes/${id}`;
 
-    fetch(url)
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error("Network response was not ok.");
-      })
-      .then(response => { if(!this._isMounted) { this.setState({ rune: response }) } })
-      .catch(() => this.props.history.push("/runes"));
-  }
+  //   fetch(url)
+  //     .then(response => {
+  //       if (response.ok) {
+  //         return response.json();
+  //       }
+  //       throw new Error("Network response was not ok.");
+  //     })
+  //     .then(response => { if(!this._isMounted) { this.setState({ rune: response }) } })
+  //     .catch(() => this.props.history.push("/runes"));
+  // }
 
-  componentWillUnmount() { this._isMounted = false; }
+  // componentWillUnmount() { this._isMounted = false; }
 
-  deleteRune() {
-    const {
-      match: {
-        params: { id }
-      }
-    } = this.props;
-    const url = `/api/v1/runes/${id}`;
-    const token = document.querySelector('meta[name="csrf-token"]').content;
+  // deleteRune() {
+  //   const {
+  //     match: {
+  //       params: { id }
+  //     }
+  //   } = this.props;
+  //   const url = `/api/v1/runes/${id}`;
+  //   const token = document.querySelector('meta[name="csrf-token"]').content;
 
-    fetch(url, {
-      method: "DELETE",
-      headers: {
-        "X-CSRF-Token": token,
-        "Content-Type": "application/json"
-      }
-    })
-      .then(response => {
-        const r = response
-        if (response.status === 204) {
-          return response;
-        }
-        throw new Error("Network response was not ok.");
-      })
-      .then(() => {
-        this.props.history.push("/runes");
-        this.setState({toCollection: true})
-      })
-      .catch(error => console.log(error.message));
-  }
+  //   fetch(url, {
+  //     method: "DELETE",
+  //     headers: {
+  //       "X-CSRF-Token": token,
+  //       "Content-Type": "application/json"
+  //     }
+  //   })
+  //     .then(response => {
+  //       const r = response
+  //       if (response.status === 204) {
+  //         return response;
+  //       }
+  //       throw new Error("Network response was not ok.");
+  //     })
+  //     .then(() => {
+  //       this.props.history.push("/runes");
+  //       this.setState({toCollection: true})
+  //     })
+  //     .catch(error => console.log(error.message));
+  // }
 
   render() {
     const { rune } = this.state;
-    const { name, short_description, long_description, roman, phonology } = rune
+    const { name, short_description, long_description, roman, phonology } = rune;
 
     if (this.state.toCollection === true) {
-      return <Redirect to='/' />
+      return(<Redirect to='/' />);
     }
 
     return (
