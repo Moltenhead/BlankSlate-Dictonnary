@@ -39,8 +39,9 @@ class Show extends React.Component {
 
   deleteInstance()
   {
+    const { modelTypes } = this
+    console.log(modelTypes);
     const {
-      modelTypes,
       match: {
         params: { id }
       }
@@ -55,7 +56,6 @@ class Show extends React.Component {
         "Content-Type": "application/json"
       }
     }).then(response => {
-        const r = response;
         if (response.status === 204) {
           return response;
         }
@@ -87,9 +87,9 @@ class Show extends React.Component {
     if (displayingFields) {
       const formatedFieldsList = displayingFields.map((fieldData, i) => this.produceField({key: i, data: fieldData}));
       return(
-        <div className="container">
+        <>
           {formatedFieldsList}
-        </div>
+        </>
       );
     } else {
       return(
@@ -100,16 +100,16 @@ class Show extends React.Component {
 
   defautlRender()
   {
+    const { modelName, modelTypes } = this;
     const instance = this.state && this.state.instance;
-    console.log(this.state)
-    const name = instance && instance.name 
+    const name = instance && instance.name ;
 
     if (this.state.toCollection === true) {
-      return(<Redirect to='/' />);
+      return(<Redirect to={`/${this.modelTypes}`} />);
     }
 
     return (
-      <>
+      <div className="">
         <div className="hero position-relative d-flex align-items-center justify-content-center">
           <img
             src={instance && instance.image}
@@ -121,13 +121,22 @@ class Show extends React.Component {
             {name}
           </h1>
         </div>
-        <div className="container">
-          {this.displayableFields()}
-          <Link to="/runes" className="btn btn-link">
-            Back to runes
-          </Link>
+        <div className="container py-5">
+          <div className="row">
+            <div className="row col-10">
+              {this.displayableFields()}
+            </div>
+            <div className="col-2">
+              <button type="button" className="btn btn-danger" onClick={this.deleteInstance}>
+                Delete {modelName}
+              </button>
+            </div>
+          </div>
+          <Link to={`/${modelTypes}`} className="btn btn-link">
+            Back to {modelTypes}
+          </Link>          
         </div>
-      </>
+      </div>
     );
   }
 
