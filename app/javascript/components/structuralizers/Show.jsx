@@ -5,27 +5,15 @@ class Show extends React.Component {
   constructor(props)
   {
     super(props);
-    this.state = { modelFields: [], instance: {} };
+    this.state = { displayingFields: [], instance: {} };
 
     this.deleteInstance = this.deleteInstance.bind(this);
-  }
-
-  setModelTypes(str)
-  {
-    const instance = (this.state && this.state.instance) || {};
-    instance.modelTypes = str;
-    this.setState({instance});
-  }
-
-  setModelFields(arr)
-  {
-    this.setState({modelFields: arr});
   }
 
   componentDidMount()
   {
     this._isMounted = true;
-    const { modelTypes, modelFields } = this;
+    const { modelTypes, displayingFields } = this;
     const {
       match: {
         params: { id }
@@ -33,7 +21,6 @@ class Show extends React.Component {
     } = this.props;
 
     const url = `/api/v1/${modelTypes}/${id}`;
-    this.setModelFields(modelFields);
     fetch(url)
       .then(response => {
         if (response.ok) {
@@ -42,8 +29,8 @@ class Show extends React.Component {
         throw new Error("Network response was not ok.");
       })
       .then(response => {
-        if(!this._isMounted) {
-          this.setState({ instance: response });
+        if(this._isMounted) {
+          this.setState({ displayingFields, instance: response });
         }
       }).catch(() => this.props.history.push(`/${modelTypes}`));
   }
@@ -96,9 +83,9 @@ class Show extends React.Component {
 
   displayableFields()
   {
-    const modelFields = this.state && this.state.modelFields;
-    if (modelFields) {
-      const formatedFieldsList = modelFields.map((fieldData, i) => this.produceField({key: i, data: fieldData}));
+    const displayingFields = this.state && this.state.displayingFields;
+    if (displayingFields) {
+      const formatedFieldsList = displayingFields.map((fieldData, i) => this.produceField({key: i, data: fieldData}));
       return(
         <div className="container">
           {formatedFieldsList}
@@ -113,18 +100,19 @@ class Show extends React.Component {
 
   defautlRender()
   {
-    const { instance } = this.state;
-    const { name, short_description, long_description, roman, phonology } = instance;
+    const instance = this.state && this.state.instance;
+    console.log(this.state)
+    const name = instance && instance.name 
 
     if (this.state.toCollection === true) {
       return(<Redirect to='/' />);
     }
 
     return (
-      <div className="">
+      <>
         <div className="hero position-relative d-flex align-items-center justify-content-center">
           <img
-            src={instance.image}
+            src={instance && instance.image}
             alt={`${name} image`}
             className="img-fluid position-absolute"
           />
@@ -133,15 +121,13 @@ class Show extends React.Component {
             {name}
           </h1>
         </div>
-        <div className="container py-5">
-          <div className="row">
-            {this.displayableFields()}
-          </div>
+        <div className="container">
+          {this.displayableFields()}
           <Link to="/runes" className="btn btn-link">
             Back to runes
           </Link>
         </div>
-      </div>
+      </>
     );
   }
 
