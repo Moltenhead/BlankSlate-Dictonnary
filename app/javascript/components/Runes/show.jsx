@@ -5,7 +5,7 @@ class Rune extends Show {
   {
     super(props);
     this.modelTypes = "runes";
-    this.modelFields = [
+    this.displayingFields = [
       {name: 'name', type: String},
       {name: 'short_description', type: String},
       {name: 'long_description', type: String},
