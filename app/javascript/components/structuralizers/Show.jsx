@@ -131,10 +131,8 @@ class Show extends React.Component {
               </button>
             </div>
           </div>
-          <Link to={`/${modelTypes}`} className="btn btn-link">
-            Back to {modelTypes}
-          </Link>          
         </div>
+        <Link to={`/${modelTypes}`} className="backwarder" />  
       </div>
     );
   }
