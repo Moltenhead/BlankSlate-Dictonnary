@@ -39,8 +39,7 @@ class Show extends React.Component {
 
   deleteInstance()
   {
-    const { modelTypes } = this
-    console.log(modelTypes);
+    const { modelTypes } = this;
     const {
       match: {
         params: { id }
@@ -65,7 +64,7 @@ class Show extends React.Component {
         this.props.history.push(`/${modelTypes}`);
         this.setState({toCollection: true})
       })
-      .catch(error => console.log(error.message));
+      .catch(error => console.error(error.message));
   }
 
   produceField(options = {})
