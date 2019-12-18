@@ -29,7 +29,7 @@ export default () => (
       <div className="container">
         <h1>Blank Slate - Dictionnary</h1>
         <p className="lead text-muted">
-          Words and concepts from the stretching lands.
+          Tong of the stretching lands.
         </p>
         <p>
           <Link
