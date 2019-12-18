@@ -17,7 +17,7 @@ const _mainLinksMap = chunkArray(_mainLinksData, _rowCols).map((dataRow, i) => {
   return (
     <div key={i} className="row my-4">
       {dataRow.map((mainLinkData, j) => {
-        return <AlbumCardLink key={j} name={mainLinkData.name} modelTypes={mainLinkData.modelTypes}/>
+        return <AlbumCardLink key={j} name={mainLinkData.name} modelTypes={mainLinkData.modelTypes} history={[]}/>
       })}
     </div>
   );
