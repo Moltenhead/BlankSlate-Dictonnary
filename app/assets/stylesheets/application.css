@@ -17,7 +17,12 @@
  body {
    margin: 0
  }
+ /* TEXT */
+ h1 {
+   text-shadow: 0 .4vmin .5vmin rgba(0,0,0,.2);
+ }
 
+ /* OTHER */
  .bg_primary-color {
   background-color: #FFFFFF;
 }
@@ -48,6 +53,49 @@
   object-position: top;
   height: 100%;
   width: 100%;
+}
+.backwarder {
+  box-sizing: content-box;
+  position: fixed;
+  top: 1vmin;
+  left: 1vmin;
+  height: 5vmin;
+  width: 6.5vmin;
+  font-size: 8vmin;
+  line-height: 4vmin;
+  overflow: hidden;
+}
+.backwarder:hover {
+  padding-right: 2vmin;
+}
+.backwarder::before {
+  content: "<";
+  position: absolute;
+  left: 2vmin;
+
+  transition: left .3s;
+}
+.backwarder::after {
+  content: "<";
+  position: absolute;
+  left: 2vmin;
+  transform: scale(1);
+  opacity: 1;
+
+  transition: all .3s;
+}
+.backwarder:hover::before,
+.backwarder:focus::before {
+  left: 0;
+
+  transition: all .1s;
+}
+.backwarder:hover::after,
+.backwarder:focus::after {
+  transform: scale(.8);
+  opacity: .5;
+
+  transition: all .1s;
 }
 .overlay {
   height: 100%;
