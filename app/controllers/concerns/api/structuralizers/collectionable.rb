@@ -144,9 +144,15 @@ module Concerns
 
             hash.to_h.each_with_object({}) do |(key, value), h|
               h[key.to_sym] = if [:$or, :$and, '$or', '$and'].include?(key)
-                                value.map do |sub_h|
+                                target_array = case value.class.name
+                                               when 'Array'
+                                                 value
+                                               when /ActionController::Parameters|Hash/
+                                                 value.map { |sub_key, sub_value| sub_value if sub_key =~ /^\d+$/ }.compact
+                                               end
+                                target_array&.map do |sub_h|
                                   restricted_params(model, sub_h.slice(*valid_keys))
-                                end
+                                end || []
                               else
                                 next unless model.fields[key].present?
 
