@@ -22,3 +22,7 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+## TODO
+
+1. change htmlPaginator to setState({page: n}) instead of url change (not rerendering)
