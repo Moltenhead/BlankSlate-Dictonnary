@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 import pluralize from "pluralize";
-import { capitalize } from "../utilities/string_utils"
+import { capitalize } from "../utilities/string_utils";
 
 export default class AlbumCardLink extends Component {
   constructor(props) {
