@@ -68,17 +68,12 @@
 .backwarder:hover {
   padding-right: 2vmin;
 }
-.backwarder::before {
-  content: "<";
-  position: absolute;
-  left: 2vmin;
-
-  transition: left .3s;
-}
+.backwarder::before,
 .backwarder::after {
   content: "<";
   position: absolute;
   left: 2vmin;
+
   transform: scale(1);
   opacity: 1;
 
