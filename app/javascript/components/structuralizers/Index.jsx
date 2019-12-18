@@ -9,12 +9,22 @@ class Index extends React.Component {
     this.state = {
       instances: []
     };
+    this.pageRegex = /(\?[\w_=&]*?page\[number\]=)([\d]+)(.)*?/;
+
+    this.previousPage = this.previousPage.bind(this);
+    this.nextPage = this.nextPage.bind(this);
   }
 
+  /* ======================= */
+  /* ------ LIFECYCLE ------ */
+  /* ======================= */
   componentDidMount() {
-    const search = (this.props.location && this.props.location.search) || "";
-    const { displayingFields, modelTypes } = this;
+    const search = (this.props.location && this.props.location.search) || "?page[number]=1";
+    const { displayingFields, modelTypes, pageRegex } = this;
     const finalDisplayingFields = displayingFields || [];
+    
+    const pageMatch = search.match(pageRegex);
+    const page = parseInt(pageMatch[2]);
     const url = `/api/v1/${modelTypes}${search}`;
     fetch(url)
       .then(response => {
@@ -23,10 +33,13 @@ class Index extends React.Component {
         }
         throw new Error("Network response was not ok.");
       })
-      .then(response => this.setState({ finalDisplayingFields, instances: response }))
+      .then(response => this.setState({ finalDisplayingFields, instances: response, pageIndex: page }))
       .catch(() => this.props.history.push("/"));
   }
 
+  /* ======================= */
+  /* ----- DEPENDENCIES ---- */
+  /* ======================= */
   // displayableFields()
   // {
   //   const displayingFields = this.state && this.state.displayingFields;
@@ -44,39 +57,83 @@ class Index extends React.Component {
   //   }
   // }
 
-  htmlPaginator() {
-    const { modelTypes } = this;
-    const search = (this.props.location && this.props.location.search) || "?page[number]=1";
-    const pageRegex = /(\?[\w_=&]*?page\[number\]=)([\d]+)(.)*?/;
-    const pageMatch = search.match(pageRegex);
-    const page = parseInt(pageMatch[2]);
-    const previousPage = page - 1;
-    const nextPage = page + 1;
-    const previousPageSearch = search.replace(pageRegex, `$1${previousPage}$3`);
-    const nextPageSearch = search.replace(pageRegex, `$1${nextPage}$3`);
+  htmlPaginator()
+  {
+    const { pageIndex } = this.state;
 
     return(
       <>
-        <div className="col-5 d-flex justify-content-end align-content-center">
-          <Link to={`/${modelTypes}${previousPageSearch}`} className="btn custom-button">
+        <div className="col-5 d-flex justify-content-end align-items-center">
+          <div className="btn custom-button" onClick={this.previousPage}>
             {"<<"}
-          </Link>
+          </div>
         </div>
-        <div className="col-2 d-flex justify-content-center align-content-center">
-          Page: {page}
+        <div className="col-2 d-flex justify-content-center align-items-center">
+          Page: {pageIndex}
         </div>
-        <div className="col-5 d-flex justify-content-start align-content-center">
-          <Link to={`/${modelTypes}${nextPageSearch}`} className="btn custom-button">
+        <div className="col-5 d-flex justify-content-start align-items-center">
+          <div className="btn custom-button" onClick={this.nextPage}>
             {">>"}
-          </Link>
+          </div>
         </div>
       </>
     )
   }
 
+  goToPage(i)
+  {
+    const { modelTypes } = this;
+    const search = (this.props.location && this.props.location.search) || "?page[number]=1";
+    const finalSearch = search.replace(this.pageRegex, `$1${i}$3`);
+    const url = `/api/v1/${modelTypes}${finalSearch}`;
+    fetch(url)
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error("Network response was not ok.");
+      })
+      .then(response => this.setState({ instances: response, pageIndex: i }))
+      .catch(() => this.props.history.push("/"));
+  }
+
+  previousPage()
+  {
+    const pageIndex = (this.state && this.state.pageIndex) || 1;
+    if (pageIndex < 2)
+      return;
+    
+    this.goToPage(pageIndex - 1);
+  }
+  nextPage()
+  {
+    const pageIndex = (this.state && this.state.pageIndex) || 1;
+    this.goToPage(pageIndex + 1);
+  }
+
+  updateInstances()
+  {
+    const { modelTypes, state: { pageIndex } } = this;
+    const search = (this.props.location && this.props.location.search) || "?page[number]=1";
+    const finalSearch = search.replace(this.pageRegex, `$1${pageIndex}$3`);
+    const url = `/api/v1/${modelTypes}${finalSearch}`;
+    fetch(url)
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error("Network response was not ok.");
+      })
+      .then(response => this.setState({ instances: response }))
+      .catch(() => this.props.history.push("/"));
+  }
+
+  /* ======================= */
+  /* -------- RENDER ------- */
+  /* ======================= */
   defaultRender() {
     const { modelName, modelSingleType, modelTypes } = this;
-    const { instances } = this.state;
+    const { instances, pageIndex } = this.state;
     const allInstances = instances.map((instance, index) => (
       <div key={index} className="col-md-6 col-lg-4">
         <div className="card mb-4">
@@ -101,6 +158,13 @@ class Index extends React.Component {
         </h4>
       </div>
     );
+    const noInstanceForPage = (
+      <div className="vw-100 vh-50 d-flex align-items-center justify-content-center">
+        <h4>
+          No {modelTypes} on page {pageIndex}
+        </h4>
+      </div>
+    );
 
     return (
       <>
@@ -108,7 +172,7 @@ class Index extends React.Component {
           <div className="container py-5">
             <h1 className="display-4">Existing {pluralize(modelName)}</h1>
             <p className="lead text-muted">
-              View, edit and delete existing {modelTypes}.
+              List of existing {modelTypes}.
             </p>
           </div>
         </section>
@@ -120,16 +184,14 @@ class Index extends React.Component {
               </Link>
             </div>
             <div className="row">
-              {instances.length > 0 ? allInstances : noInstance}
+              {instances.length > 0 ? allInstances : pageIndex < 2 ? noInstance : noInstanceForPage}
             </div>
             <div className="row col-12">
               {this.htmlPaginator()}
             </div>
-            <Link to="/" className="btn btn-link">
-              Home
-            </Link>
           </main>
         </div>
+        <Link to="/" className="backwarder" />
       </>
     );
   }
