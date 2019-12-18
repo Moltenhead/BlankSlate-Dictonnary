@@ -1,4 +1,4 @@
-import Create from "../structuralizers/Create";
+import Create from "../../structuralizers/Create";
 
 class NewSyllable extends Create {
   constructor(props) {

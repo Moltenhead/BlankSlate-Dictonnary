@@ -1,4 +1,4 @@
-import Index from "../structuralizers/Index";
+import Index from "../../structuralizers/Index";
 
 class Runes extends Index {
   constructor(props) {

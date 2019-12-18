@@ -1,4 +1,4 @@
-import Show from "../structuralizers/Show";
+import Show from "../../structuralizers/Show";
 
 class Word extends Show {
   constructor(props)
