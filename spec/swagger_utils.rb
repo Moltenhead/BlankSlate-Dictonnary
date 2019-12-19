@@ -44,3 +44,7 @@ def rand_of_type type
     rand(32).times.map { rand_bool }
   end
 end
+
+def json
+  JSON.parse(response.body, symbolize_names: true)
+end

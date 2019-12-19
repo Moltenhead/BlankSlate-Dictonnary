@@ -1,6 +1,6 @@
 require 'swagger_helper'
 
-describe :ApiV1RunesController, type: :request, swagger_doc: 'v1/swagger.json'  do
+describe :ApiV1RunesController, type: :request, swagger_doc: 'v1/swagger.yaml'  do
   ACCEPTABLE_PARAMS = [
     {name: :long_description, type: :string, required: false},
     {name: :name, type: :string, required: false},
@@ -23,35 +23,28 @@ describe :ApiV1RunesController, type: :request, swagger_doc: 'v1/swagger.json'  
     post 'Creates a rune' do
       tags 'Runes'
       consumes 'application/json'
-      parameter name: :rune, in: :body, required: true, schema: {
+      parameter name: :data, in: :body, required: true, schema: {
         type: :object,
         properties: {
-          data: {
+          attributes: {
             schema: {
               type: :object,
-              properties: {
-                attributes: {
-                  schema: {
-                    type: :object,
-                    required: true,
-                    properties: MUTABLE_PARAMS.each_with_object({}) do |param_name, h|
-                        param_data = ACCEPTABLE_PARAMS.find do |acceptable_param|
-                            acceptable_param[:name] == param_name
-                          end
-                        h[param_data[:name]] = { type: param_data[:type], required: param_data[:required] }
-                      end
-                  }
-                }
-              }
+              required: true,
+              properties: MUTABLE_PARAMS.each_with_object({}) do |param_name, h|
+                  param_data = ACCEPTABLE_PARAMS.find do |acceptable_param|
+                      acceptable_param[:name] == param_name
+                    end
+                  h[param_data[:name]] = { type: param_data[:type], required: param_data[:required] }
+                end
             }
           }
         }
       }
 
       response '201', 'rune created' do
-        let(:rune) do
-          MUTABLE_PARAMS.each_with_object({ data: { attributes: {} } }) do |param_name, h|
-            h[:data][:attributes][param_name] = rand_of_type(
+        let(:data) do
+          MUTABLE_PARAMS.each_with_object({ attributes: {} }) do |param_name, h|
+            h[:attributes][param_name] = rand_of_type(
               ACCEPTABLE_PARAMS.find do |acceptable_param|
                 acceptable_param[:name] == param_name
               end[:type]

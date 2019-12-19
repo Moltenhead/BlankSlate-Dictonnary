@@ -1,0 +1,87 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/v1/runes":
+    post:
+      summary: Creates a rune
+      tags:
+      - Runes
+      consumes:
+      - application/json
+      parameters:
+      - name: rune
+        in: body
+        required: true
+        schema:
+          type: object
+          properties:
+            data:
+              schema:
+                type: object
+                properties:
+                  attributes:
+                    schema:
+                      type: object
+                      required: true
+                      properties:
+                        long_description:
+                          type: string
+                          required: false
+                        name:
+                          type: string
+                          required: false
+                        phonology:
+                          type: string
+                          required: false
+                        roman:
+                          type: string
+                          required: false
+                        short_description:
+                          type: string
+                          required: false
+      responses:
+        '201':
+          description: rune created
+    get:
+      summary: Retrieves runes
+      tags:
+      - Runes
+      produces:
+      - application/json
+      parameters:
+      - name: long_description
+        in: query
+        type: string
+        required: false
+      - name: name
+        in: query
+        type: string
+        required: false
+      - name: phonology
+        in: query
+        type: string
+        required: false
+      - name: roman
+        in: query
+        type: string
+        required: false
+      - name: short_description
+        in: query
+        type: string
+        required: false
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: object
+          properties:
+            number:
+              type: integer
+            size:
+              type: integer
+      responses:
+        '200':
+          description: runes are displaying
