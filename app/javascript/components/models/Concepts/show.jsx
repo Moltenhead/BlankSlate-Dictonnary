@@ -1,11 +1,11 @@
-import Show from "../structuralizers/Show";
+import Show from "../../structuralizers/Show";
 
-class Word extends Show {
+class Concept extends Show {
   constructor(props)
   {
     super(props);
-    this.modelName = "Word";
-    this.modelTypes = "words";
+    this.modelName = "Concept";
+    this.modelTypes = "concepts";
     this.displayingFields = [
       {name: 'short_description', format: 'short'},
       {name: 'long_description', format: 'long'},
@@ -15,4 +15,4 @@ class Word extends Show {
   }
 }
 
-export default Word;
+export default Concept;

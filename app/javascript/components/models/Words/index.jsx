@@ -1,4 +1,4 @@
-import Index from "../structuralizers/Index";
+import Index from "../../structuralizers/Index";
 
 class Words extends Index {
   constructor(props) {

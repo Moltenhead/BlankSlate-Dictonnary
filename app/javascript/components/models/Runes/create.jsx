@@ -1,4 +1,4 @@
-import Create from "../structuralizers/Create";
+import Create from "../../structuralizers/Create";
 
 class NewRune extends Create {
   constructor(props) {

@@ -1,11 +1,11 @@
-import Create from "../structuralizers/Create";
+import Create from "../../structuralizers/Create";
 
-class NewConcept extends Create {
+class NewSyllable extends Create {
   constructor(props) {
     super(props);
-    this.modelName = "Concept";
-    this.modelSingleType = "concept";
-    this.modelTypes = "concepts";
+    this.modelName = "Syllable";
+    this.modelSingleType = "syllable";
+    this.modelTypes = "syllables";
     this.mutableFields = [
       {name: "name", required: true},
       {name: "short_descritpion", required: false},
@@ -16,4 +16,4 @@ class NewConcept extends Create {
   }
 }
 
-export default NewConcept;
+export default NewSyllable;

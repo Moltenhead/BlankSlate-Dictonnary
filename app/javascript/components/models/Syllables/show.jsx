@@ -1,11 +1,11 @@
-import Show from "../structuralizers/Show";
+import Show from "../../structuralizers/Show";
 
-class Rune extends Show {
+class Syllable extends Show {
   constructor(props)
   {
     super(props);
-    this.modelName = "Rune";
-    this.modelTypes = "runes";
+    this.modelName = "Syllable";
+    this.modelTypes = "syllables";
     this.displayingFields = [
       {name: 'short_description', format: 'short'},
       {name: 'long_description', format: 'long'},
@@ -15,4 +15,4 @@ class Rune extends Show {
   }
 }
 
-export default Rune;
+export default Syllable;
