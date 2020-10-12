@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
+import Errorer from "./core/Errorer";
 import AlbumCardLink from "./AlbumCardLink";
 
 import { chunkArray } from "../utilities/array_utils";
@@ -17,35 +19,52 @@ const _mainLinksMap = chunkArray(_mainLinksData, _rowCols).map((dataRow, i) => {
   return (
     <div key={i} className="row my-4">
       {dataRow.map((mainLinkData, j) => {
-        return <AlbumCardLink key={j} name={mainLinkData.name} modelTypes={mainLinkData.modelTypes} history={[]}/>
+        return <AlbumCardLink
+          key={j}
+          name={mainLinkData.name}
+          modelTypes={mainLinkData.modelTypes}
+          history={[]}
+        />
       })}
     </div>
   );
 });
 
-export default () => (
-  <main role="main">
-    <section className="jumbotron text-center">
-      <div className="container">
-        <h1>Blank Slate - Dictionnary</h1>
-        <p className="lead text-muted">
-          Tong of the stretching lands.
-        </p>
-        <p>
-          <Link
-            to="/"
-            className="btn btn-primary my-2"
-            role="button"
-          >
-            Main
-          </Link>
-        </p>
-      </div>
-    </section>
-    <div className="album bg-transparent">
-      <div className="container secondary-color">
-        {_mainLinksMap}
-      </div>
-    </div>
-  </main>
-);
+class Home extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  defaultRender()
+  {
+    return(
+      <main role="main">
+        <section className="jumbotron text-center">
+          <div className="container">
+            <h1>Blank Slate - Dictionnary</h1>
+            <p className="lead text-muted">
+              Tong of the stretching lands.
+            </p>
+            <p>
+              <Link
+                to="/"
+                className="btn btn-primary my-2"
+                role="button"
+              >
+                Main
+              </Link>
+            </p>
+          </div>
+        </section>
+        <div className="album bg-transparent">
+          <div className="container secondary-color">
+            {_mainLinksMap}
+          </div>
+        </div>
+      </main>
+    )
+  }
+
+  render() { return(this.defaultRender()) }
+}
+export default Home

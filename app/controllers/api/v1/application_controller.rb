@@ -58,7 +58,9 @@ module Api
 
       # CLASS METHODS
       class << self
-        def model_module(model_module_name)
+        def model_module(model_module_name = nil)
+          return @@model_module if !model_module_name
+
           @@model_module = model_module_name
         end
       end

@@ -1,4 +1,5 @@
 import React from "react";
+import _ from "lodash";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 // ROOT
@@ -20,27 +21,48 @@ import Runes        from "../components/models/Runes/index";
 import Rune         from "../components/models/Runes/show";
 import NewRune      from "../components/models/Runes/create";
 
-export default (
-  <Router>
-    <Switch>
-      {/*ROOT*/}
-      <Route path="/"             exact component={Home} />
-      {/*WORDS*/}
-      <Route path="/words"        exact component={Words} />
-      <Route path="/word/:id"     exact component={Word} />
-      <Route path="/word"         exact component={NewWord} />
-      {/*SYLLABELS*/}
-      <Route path="/syllables"    exact component={Syllables} />
-      <Route path="/syllable/:id" exact component={Syllable} />
-      <Route path="/syllable"     exact component={NewSyllable} />
-      {/*CONCEPTS*/}
-      <Route path="/concepts"     exact component={Concepts} />
-      <Route path="/concept/:id"  exact component={Concept} />
-      <Route path="/concept"      exact component={NewConcept} />
-      {/*RUNES*/}
-      <Route path="/runes"        exact component={Runes} />
-      <Route path="/rune/:id"     exact component={Rune} />
-      <Route path="/rune"         exact component={NewRune} />
-    </Switch>
-  </Router>
-);
+class Routes extends React.Component {
+  constructor(props) {
+    super(props)
+    this.routeMap = {
+      "/":              Home,
+      "/words":         Words,
+      "/word/:id":      Word,
+      "/word":          NewWord,
+      "/syllables":     Syllables,
+      "/syllable/:id":  Syllable,
+      "/syllable":      NewSyllable,
+      "/concepts":      Concepts,
+      "/concept/:id":   Concept,
+      "/concept":       NewConcept,
+      "/runes":         Runes,
+      "/rune/;id":      Rune,
+      "/rune":          NewRune
+    }
+  }
+
+  generateRoutes()
+  {
+    return(
+      _.map(
+        this.routeMap,
+        (Component, path) => {
+          return <Route key={Component.name} path={path} exact render={(props) => React.createElement(Component, props)}/>
+        }
+      )
+    )
+  }
+
+  render()
+  {
+    const routesMap = this.generateRoutes();
+    return(
+      <Router>
+        <Switch>
+          {routesMap}
+        </Switch>
+      </Router>
+    );
+  }
+}
+export default Routes

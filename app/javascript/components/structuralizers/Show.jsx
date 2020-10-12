@@ -5,6 +5,7 @@ class Show extends React.Component {
   constructor(props)
   {
     super(props);
+    console.log("constructing");
     this.state = { displayingFields: [], instance: {} };
 
     this.deleteInstance = this.deleteInstance.bind(this);
@@ -12,6 +13,7 @@ class Show extends React.Component {
 
   componentDidMount()
   {
+    console.log("didMount")
     this._isMounted = true;
     const { modelTypes, displayingFields } = this;
     const {
@@ -23,6 +25,7 @@ class Show extends React.Component {
     const url = `/api/v1/${modelTypes}/${id}`;
     fetch(url)
       .then(response => {
+        console.log(response.json);
         if (response.ok) {
           return response.json();
         }
@@ -139,5 +142,4 @@ class Show extends React.Component {
 
   render() { return this.defautlRender(); }
 }
-
 export default Show;

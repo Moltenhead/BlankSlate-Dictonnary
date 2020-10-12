@@ -86,11 +86,18 @@ class Index extends React.Component {
     const search = (this.props.location && this.props.location.search) || "?page[number]=1";
     const finalSearch = search.replace(this.pageRegex, `$1${i}$3`);
     const url = `/api/v1/${modelTypes}${finalSearch}`;
+    console.log("in goto")
     fetch(url)
       .then(response => {
         if (response.ok) {
-          return response.json();
+          console.log(response.json)
+          if (response.json.length > 0) {
+            return response.json();
+          }
+          console.log("gotoerror")
+          return this.triggerError("0000");
         }
+        console.log("network error")
         throw new Error("Network response was not ok.");
       })
       .then(response => this.setState({ instances: response, pageIndex: i }))
@@ -107,6 +114,7 @@ class Index extends React.Component {
   }
   nextPage()
   {
+    console.log("in next");
     const pageIndex = (this.state && this.state.pageIndex) || 1;
     this.goToPage(pageIndex + 1);
   }
