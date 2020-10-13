@@ -6,6 +6,7 @@ class Syllable extends Show {
     super(props);
     this.modelName = "Syllable";
     this.modelTypes = "syllables";
+    this.modelSingleType = "syllable";
     this.displayingFields = [
       {name: 'short_description', format: 'short'},
       {name: 'long_description', format: 'long'},

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import pluralize from "pluralize";
+import { singular, plural } from "pluralize";
 
 class Index extends React.Component {
   constructor(props) {
@@ -13,6 +13,7 @@ class Index extends React.Component {
 
     this.previousPage = this.previousPage.bind(this);
     this.nextPage = this.nextPage.bind(this);
+    this.deleteInstance = this.deleteInstance.bind(this);
   }
 
   /* ======================= */
@@ -86,18 +87,14 @@ class Index extends React.Component {
     const search = (this.props.location && this.props.location.search) || "?page[number]=1";
     const finalSearch = search.replace(this.pageRegex, `$1${i}$3`);
     const url = `/api/v1/${modelTypes}${finalSearch}`;
-    console.log("in goto")
     fetch(url)
       .then(response => {
         if (response.ok) {
-          console.log(response.json)
           if (response.json.length > 0) {
             return response.json();
           }
-          console.log("gotoerror")
           return this.triggerError("0000");
         }
-        console.log("network error")
         throw new Error("Network response was not ok.");
       })
       .then(response => this.setState({ instances: response, pageIndex: i }))
@@ -114,7 +111,6 @@ class Index extends React.Component {
   }
   nextPage()
   {
-    console.log("in next");
     const pageIndex = (this.state && this.state.pageIndex) || 1;
     this.goToPage(pageIndex + 1);
   }
@@ -136,29 +132,59 @@ class Index extends React.Component {
       .catch(() => this.props.history.push("/"));
   }
 
+  deleteInstance(id)
+  {
+    const { modelTypes, modelSingleType } = this;
+    const url = `/api/v1/${modelTypes}/${id}`;
+    const token = document.querySelector('meta[name="csrf-token"]').content;
+
+    fetch(url, {
+      method: "DELETE",
+      headers: {
+        "X-CSRF-Token": token,
+        "Content-Type": "application/json"
+      }
+    }).then(response => {
+        if (response.status === 204) {
+          return response;
+        }
+        throw new Error("Network response was not ok.");
+      })
+      .then(() => {
+        this.updateInstances();
+      })
+      .catch(error => console.error(error.message));
+  }
+
   /* ======================= */
   /* -------- RENDER ------- */
   /* ======================= */
   defaultRender() {
     const { modelName, modelSingleType, modelTypes } = this;
     const { instances, pageIndex } = this.state;
-    const allInstances = instances.map((instance, index) => (
-      <div key={index} className="col-md-6 col-lg-4">
-        <div className="card mb-4">
-          <img
-            src={instance.image}
-            className="card-img-top"
-            alt={`${instance.name} image`}
-          />
-          <div className="card-body">
-            <h5 className="card-title">{instance.name}</h5>
-            <Link to={`/${modelSingleType}/${instance.id}`} className="btn custom-button">
-              View {modelName}
-            </Link>
+    const allInstances = instances.map((instance, index) => {
+      console.log(instance)
+      return(
+        <div key={index} className="col-md-6 col-lg-4">
+          <div className="card mb-4">
+            <img
+              src={instance.image}
+              className="card-img-top"
+              alt={`${instance.name} image`}
+            />
+            <div className="card-body">
+              <h5 className="card-title">{instance.name}</h5>
+              <Link to={`/${modelSingleType}/${instance.id}`} className="btn custom-button">
+                View {modelName}
+              </Link>
+              <button type="button" className="btn btn-danger" onClick={() => this.deleteInstance(instance.id)}>
+                Delete {modelName}
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    ));
+      );
+    })
     const noInstance = (
       <div className="vw-100 vh-50 d-flex align-items-center justify-content-center">
         <h4>
@@ -178,7 +204,7 @@ class Index extends React.Component {
       <>
         <section className="jumbotron jumbotron-fluid text-center">
           <div className="container py-5">
-            <h1 className="display-4">Existing {pluralize(modelName)}</h1>
+            <h1 className="display-4">Existing {plural(modelName)}</h1>
             <p className="lead text-muted">
               List of existing {modelTypes}.
             </p>

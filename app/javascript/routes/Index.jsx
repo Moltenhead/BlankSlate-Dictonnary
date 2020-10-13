@@ -36,7 +36,7 @@ class Routes extends React.Component {
       "/concept/:id":   Concept,
       "/concept":       NewConcept,
       "/runes":         Runes,
-      "/rune/;id":      Rune,
+      "/rune/:id":      Rune,
       "/rune":          NewRune
     }
   }

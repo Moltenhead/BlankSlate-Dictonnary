@@ -6,6 +6,7 @@ class Word extends Show {
     super(props);
     this.modelName = "Word";
     this.modelTypes = "words";
+    this.modelSingleType = "word";
     this.displayingFields = [
       {name: 'short_description', format: 'short'},
       {name: 'long_description', format: 'long'},

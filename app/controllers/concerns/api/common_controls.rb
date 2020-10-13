@@ -10,18 +10,18 @@ module Concerns
 
       included do
         def index
-          acceptable_params self.class::ACCEPTABLE_PARAMS
-          valid_operators self.class::VALID_OPERATORS
+          @acceptable_params = self.class::ACCEPTABLE_PARAMS
+          @valid_operators   = self.class::VALID_OPERATORS
           super
         end
 
         def create
-          mutable_params self.class::MUTABLE_PARAMS
+          @mutable_params = self.class::MUTABLE_PARAMS
           super
         end
 
         def udpate
-          mutable_params self.class::MUTABLE_PARAMS
+          @mutable_params = self.class::MUTABLE_PARAMS
           super
         end
       end

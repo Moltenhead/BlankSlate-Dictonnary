@@ -6,6 +6,7 @@ class Rune extends Show {
     super(props);
     this.modelName = "Rune";
     this.modelTypes = "runes";
+    this.modelSingleType = "rune";
     this.displayingFields = [
       {name: 'short_description', format: 'short'},
       {name: 'long_description', format: 'long'},

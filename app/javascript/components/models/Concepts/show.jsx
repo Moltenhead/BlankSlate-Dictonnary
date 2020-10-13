@@ -6,6 +6,7 @@ class Concept extends Show {
     super(props);
     this.modelName = "Concept";
     this.modelTypes = "concepts";
+    this.modelSingleType = "concept";
     this.displayingFields = [
       {name: 'short_description', format: 'short'},
       {name: 'long_description', format: 'long'},

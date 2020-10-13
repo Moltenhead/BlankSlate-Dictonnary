@@ -14,12 +14,13 @@ module Api
       before_action :set_instance, only: %i[show edit update destroy]
       skip_before_action :verify_authenticity_token
 
-      @@model_module = nil
+      MODEL_MODULE = ''
 
       # INTIALIZE
       def initialize
         super
-        @model_name = (@@model_module ? "#{@@model_module}::" : '') + controller_name.classify
+        @model_name = ((self.class::MODEL_MODULE ? "#{self.class::MODEL_MODULE}::" : '') +
+                        controller_name.capitalize).classify
         begin
           if @model_name && @model_name != 'Application'
             @model = @model_name.constantize
@@ -30,6 +31,33 @@ module Api
         end
         @acceptable_params = @regex_params = @regex_default_params = @regex_params = @valid_operators = []
       end
+
+      attr_reader :serializer
+      attr_accessor(
+        :model_name,
+        :acceptable_params,
+        :regex_default_params,
+        :regex_params,
+        :valid_operators,
+        :included_relationships
+      )
+
+      def serializer
+        @serializer
+      end
+
+      # %i[
+      #   acceptable_params
+      #   regex_default_params
+      #   regex_params
+      #   valid_operators
+      #   included_relationships
+      # ].each do |method_name|
+      #   attr_accessor method_name
+      #   define_method(method_name) do |value = []|
+      #     instance_variable_set(method_name, value || [])
+      #   end
+      # end
 
       # def render(resources, options = {})
       #   options   = options.dup
@@ -55,15 +83,6 @@ module Api
 
       #   @renderer.render(options.merge(errors: errors))
       # end
-
-      # CLASS METHODS
-      class << self
-        def model_module(model_module_name = nil)
-          return @@model_module if !model_module_name
-
-          @@model_module = model_module_name
-        end
-      end
     end
   end
 end

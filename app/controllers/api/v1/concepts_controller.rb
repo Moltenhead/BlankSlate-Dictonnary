@@ -3,7 +3,7 @@
 module Api
   module V1
     class ConceptsController < ApplicationController
-      model_module 'LanguageConcepts'
+      MODEL_MODULE = 'LanguageConcepts'
       include Concerns::Api::CommonControls
 
       VALID_OPERATORS = %w[

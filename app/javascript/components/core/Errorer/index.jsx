@@ -60,7 +60,6 @@ class Errorer extends Modal {
 
   popOut()
   {
-    console.log("plop")
     this.setState({ isShown: false });
     this.setErrorId(null);
   }

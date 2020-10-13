@@ -2,12 +2,12 @@ require 'swagger_helper'
 
 describe :ApiV1RunesController, type: :request, swagger_doc: 'v1/swagger.json'  do
   ACCEPTABLE_PARAMS = [
-    {name: :long_description, type: :string, required: false},
-    {name: :name, type: :string, required: false},
-    {name: :phonology, type: :string, required: false},
-    # {name: :representation_id, type: :string, required: false},
-    {name: :roman, type: :string, required: false},
-    {name: :short_description, type: :string, required: false}
+    { name: :long_description, type: :string, required: false },
+    { name: :name, type: :string, required: false },
+    { name: :phonology, type: :string, required: false },
+    # { name: :representation_id, type: :string, required: false },
+    { name: :roman, type: :string, required: false },
+    { name: :short_description, type: :string, required: false }
   ].freeze
 
   MUTABLE_PARAMS = [
@@ -35,11 +35,11 @@ describe :ApiV1RunesController, type: :request, swagger_doc: 'v1/swagger.json'  
                     type: :object,
                     required: true,
                     properties: MUTABLE_PARAMS.each_with_object({}) do |param_name, h|
-                        param_data = ACCEPTABLE_PARAMS.find do |acceptable_param|
-                            acceptable_param[:name] == param_name
-                          end
-                        h[param_data[:name]] = { type: param_data[:type], required: param_data[:required] }
+                      param_data = ACCEPTABLE_PARAMS.find do |acceptable_param|
+                        acceptable_param[:name] == param_name
                       end
+                      h[param_data[:name]] = { type: param_data[:type], required: param_data[:required] }
+                    end
                   }
                 }
               }
@@ -61,7 +61,9 @@ describe :ApiV1RunesController, type: :request, swagger_doc: 'v1/swagger.json'  
         include_context 'with integration test'
       end
     end
+  end
 
+  path '/api/v1/runes' do
     get 'Retrieves runes' do
       tags 'Runes'
       produces 'application/json'
@@ -82,6 +84,36 @@ describe :ApiV1RunesController, type: :request, swagger_doc: 'v1/swagger.json'  
         end
         include_context 'with integration test'
         include_context 'with pagination test'
+      end
+    end
+  end
+
+  path '/api/v1/runes/{id}' do
+    get 'Retrieves rune' do
+      tags 'Runes'
+      produces 'application/json'
+      parameter name: :id, in: :path, type: :string, required: true
+
+      response '200', 'rune found' do
+        let(:rune) do
+          MUTABLE_PARAMS.each_with_object({ data: { attributes: {} } }) do |param_name, h|
+            h[:data][:attributes][param_name] = rand_of_type(
+              ACCEPTABLE_PARAMS.find do |acceptable_param|
+                acceptable_param[:name] == param_name
+              end[:type]
+            )
+          end
+        end
+
+        let(:id) { rune[:id] }
+        include_context 'with integration test'
+
+        after do
+          json = JSON.parse(response.body, symbolize_names: true)
+          ap json
+          ap rune
+          expect(json[:id]).to be rune.id
+        end
       end
     end
   end

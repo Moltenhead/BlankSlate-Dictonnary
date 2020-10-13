@@ -15,6 +15,14 @@ module Concerns
             @instance = @model.find(params[:id])
           end
 
+          def instance=(instance)
+            @instance = instance
+          end
+
+          def instance
+            @instance
+          end
+
           # Never trust parameters from the scary internet, only allow the white list through.
           def instance_params
             params.fetch(:instance, {})

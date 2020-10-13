@@ -1,11 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import { singular, plural } from "pluralize";
+
 class Show extends React.Component {
   constructor(props)
   {
     super(props);
-    console.log("constructing");
     this.state = { displayingFields: [], instance: {} };
 
     this.deleteInstance = this.deleteInstance.bind(this);
@@ -13,9 +14,8 @@ class Show extends React.Component {
 
   componentDidMount()
   {
-    console.log("didMount")
     this._isMounted = true;
-    const { modelTypes, displayingFields } = this;
+    const { modelTypes, modelSingleType, displayingFields } = this;
     const {
       match: {
         params: { id }
@@ -25,7 +25,6 @@ class Show extends React.Component {
     const url = `/api/v1/${modelTypes}/${id}`;
     fetch(url)
       .then(response => {
-        console.log(response.json);
         if (response.ok) {
           return response.json();
         }
@@ -42,7 +41,7 @@ class Show extends React.Component {
 
   deleteInstance()
   {
-    const { modelTypes } = this;
+    const { modelTypes, modelSingleType } = this;
     const {
       match: {
         params: { id }

@@ -1,6 +1,7 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
-ENV['RAILS_ENV'] ||= 'test'
+ENV['RAILS_ENV']    ||= 'test'
+ENV['DATABASE_URL'] ||= 'blank_slate_dictionnary_test'
 
 require File.expand_path('../config/environment', __dir__)
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }

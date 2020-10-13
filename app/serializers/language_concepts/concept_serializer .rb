@@ -1,15 +1,12 @@
 # frozen_string_literal: true
 
 module LanguageConcepts
-  class RuneSerializer < ::ApplicationSerializer
-    type 'runes'
+  class ConceptSerializer < ::ApplicationSerializer
+    type 'concepts'
 
     attributes(
       :name,
-      :short_description,
-      :long_description,
-      :roman,
-      :phonology
+      :type
     )
 
     #has_one :representation do

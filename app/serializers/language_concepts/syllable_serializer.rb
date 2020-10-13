@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
 module LanguageConcepts
-  class RuneSerializer < ::ApplicationSerializer
-    type 'runes'
+  class SyllableSerializer < ::ApplicationSerializer
+    type 'syllables'
 
     attributes(
-      :name,
       :short_description,
       :long_description,
       :roman,

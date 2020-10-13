@@ -16,42 +16,6 @@ module Concerns
           # --------------- UTILITIES  --------------- #
           # ========================================== #
 
-          attr_accessor(
-            :acceptable_params,
-            :regex_default_params,
-            :regex_params,
-            :valid_operators,
-            :included_relationships
-          )
-          def acceptable_params(arr = [])
-            @acceptable_params = arr
-          end
-          def regex_default_params(arr = [])
-            @regex_default_params = arr
-          end
-          def regex_params(arr = [])
-            @regex_params = arr
-          end
-          def valid_operators(arr = [])
-            @valid_operators = arr
-          end
-          def included_relationships(arr = [])
-            @included_relationships = arr
-          end
-
-          # %i[
-          #   acceptable_params
-          #   regex_default_params
-          #   regex_params
-          #   valid_operators
-          #   included_relationships
-          # ].each do |method_name|
-          #   attr_accessor method_name
-          #   define_method(method_name) do |value = []|
-          #     instance_variable_set(method_name, value || [])
-          #   end
-          # end
-
           # handle query parameters and query operators
           def build_query(other_model = nil)
           # @other_model: when nil use @model, else use passed model
@@ -127,7 +91,7 @@ module Concerns
           def paginate(aggregation, options = {})
             page = params.permit![:page]&.fetch(:number, nil) || 1
             page_size = params.permit![:page]&.fetch(:size, nil) || 15
-            paginated_aggregation = aggregation.skip((Integer(page) - 1) * Integer(page_size)).limit(page_size)
+            paginated_aggregation = aggregation&.skip((Integer(page) - 1) * Integer(page_size))&.limit(page_size)
 
             render(
               json: paginated_aggregation,
